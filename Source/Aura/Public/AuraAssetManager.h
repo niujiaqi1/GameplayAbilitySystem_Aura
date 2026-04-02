@@ -9,6 +9,7 @@
 /**
  * 
  */
+
 UCLASS()
 class AURA_API UAuraAssetManager : public UAssetManager
 {
