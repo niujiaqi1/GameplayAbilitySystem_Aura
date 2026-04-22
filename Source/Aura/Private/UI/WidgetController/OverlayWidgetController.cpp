@@ -85,11 +85,14 @@ void UOverlayWidgetController::OnInitializeStartupAbilities(UAuraAbilitySystemCo
 	if (!AuraAbilitySystemComponent->bStartupAbilitiesGiven) return;
 	
 	FForEachAbility BroadcastDelegate;
-	BroadcastDelegate.BindLambda([](const FGameplayAbilitySpec& AbilitySpec)
+	BroadcastDelegate.BindLambda([this, AuraAbilitySystemComponent](const FGameplayAbilitySpec& AbilitySpec)
 	{
-		//AbilityInfo->FindAbilityInfoForTag()
+		//TODO need a way to figure out thr ability tag for a given ability spec.
+		FAuraAbilityInfo Info = AbilityInfo->FindAbilityInfoForTag(AuraAbilitySystemComponent->GetAbilityTagFromSpec(AbilitySpec));
+		Info.InputTag = AuraAbilitySystemComponent->GetInputTagFromSpec(AbilitySpec);
+		AbilityInfoDelegate.Broadcast(Info);
 	});
-	
+	AuraAbilitySystemComponent->ForEachAbility(BroadcastDelegate);
 }
 
 
